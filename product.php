@@ -39,7 +39,6 @@ session_start();
             $productPrice = $row['PRODUCT_PRICE'];
             $productType = $row['PRODUCT_TYPE'];
             $productImage = $row['PRODUCT_IMAGE'];
-            $productBought = 1;
             ?>
             <div class="row mt-5">
                 <div class="col-md-6">
@@ -48,31 +47,19 @@ session_start();
                 <div class="col-md-6">
                     <div class="product-details-box">
                         <h2><?php echo $productName; ?></h2>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Quantity:</span>
-                            <input type="number" class="form-control" id="quantity" style="max-width: 100px" value="<?php echo $productBought; ?>">
-                        </div>
-                        <p class="mb-3">Price: <?php echo 'RM' .$productPrice; ?></p>
-                        <p class="mb-3">Type: <?php echo $productType; ?></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <form method="POST" action="cart.php">
+                            <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Quantity:</span>
+                                <input type="number" class="form-control" name="quantity[]" style="max-width: 100px" min="1" value="1">
+                            </div>
+                            <p class="mb-3">Price: <?php echo 'RM' .$productPrice; ?></p>
+                            <p class="mb-3">Type: <?php echo $productType; ?></p>
+                            <button type="submit" name="add_to_cart" class="btn btn-primary" onclick="showAlert()">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <script>
-                function incrementQuantity() {
-                    var quantity = document.getElementById('quantity');
-                    quantity.value = parseInt(quantity.value) + 1;
-                }
-
-                function decrementQuantity() {
-                    var quantity = document.getElementById('quantity');
-                    if (parseInt(quantity.value) > 1) {
-                        quantity.value = parseInt(quantity.value) - 1;
-                    }
-                }
-            </script>
-
             <?php
         } else {
             // Product not found
@@ -88,12 +75,17 @@ session_start();
     ?>
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function showAlert() {
+        alert('Product added to cart successfully!');
+    }
+</script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</div>
 </body>
 </html>

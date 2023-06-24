@@ -19,14 +19,14 @@
                 <?php
                 if (isset($_SESSION['userName'])) {
                     $username = $_SESSION['userName'];
-                    echo '<a class="nav-link" href="#"><i class="fas fa-user"></i> '.$username.'</a>';
+                    echo '<a class="nav-link" href="index.php"><i class="fas fa-user"></i> '.$username.'</a>';
                 } else {
                     echo '<a class="nav-link" href="login.php"><i class="fas fa-user"></i> Login</a>';
                 }
                 ?>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i> Cart</a>
             </li>
             <?php
             if (isset($_SESSION['userName'])) {

@@ -14,10 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         $userType = $row['USER_TYPE'];
         $userName = $row['USER_NAME'];
+        $userID = $row['USER_ID'];
 
         // Set session variables
         $_SESSION['userType'] = $userType;
         $_SESSION['userName'] = $userName;
+        $_SESSION['userID'] = $userID;
 
         if ($userType == 'user') {
             // Redirect to index.php for regular user
