@@ -1,24 +1,34 @@
 <?php
+// Start session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['admin'])) {
+    // Redirect to login page
+    header('Location: login.php');
+    exit();
+}
+
 // Assuming you have a database connection
 require_once 'connection.php';
 
 // Retrieve the total number of orders
-$totalOrdersQuery = "SELECT COUNT(*) AS total_orders FROM `order`";
+$totalOrdersQuery = "SELECT COUNT(*) AS total_orders FROM `sale`";
 $totalOrdersResult = mysqli_query($conn, $totalOrdersQuery);
 $totalOrders = mysqli_fetch_assoc($totalOrdersResult)['total_orders'];
 
 // Retrieve the total number of users
-$totalUsersQuery = "SELECT COUNT(*) AS total_users FROM user";
+$totalUsersQuery = "SELECT COUNT(*) AS total_users FROM `user`";
 $totalUsersResult = mysqli_query($conn, $totalUsersQuery);
 $totalUsers = mysqli_fetch_assoc($totalUsersResult)['total_users'];
 
 // Retrieve the total number of products
-$totalProductsQuery = "SELECT COUNT(*) AS total_products FROM product";
+$totalProductsQuery = "SELECT COUNT(*) AS total_products FROM `product`";
 $totalProductsResult = mysqli_query($conn, $totalProductsQuery);
 $totalProducts = mysqli_fetch_assoc($totalProductsResult)['total_products'];
 
 // Retrieve the total product sales and profit
-$totalSalesQuery = "SELECT SUM(ORDER_QUANTITY) AS total_sales, SUM(ORDER_QUANTITY * PRODUCT_PRICE) AS total_profit FROM `order` o JOIN product p ON o.PRODUCT_ID = p.PRODUCT_ID";
+$totalSalesQuery = "SELECT SUM(SALES_QUANTITY) AS total_sales, SUM(SALES_QUANTITY * SALES_PRICES) AS total_profit FROM `sale`";
 $totalSalesResult = mysqli_query($conn, $totalSalesQuery);
 $totalSalesData = mysqli_fetch_assoc($totalSalesResult);
 $totalSales = $totalSalesData['total_sales'];
@@ -77,7 +87,7 @@ mysqli_close($conn);
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Total Profit</h5>
-                    <p class="card-text"><?php echo 'RM ' .$totalProfit; ?></p>
+                    <p class="card-text"><?php echo 'RM ' . $totalProfit; ?></p>
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } elseif ($userType == 'admin') {
             // Redirect to dashboard.php for admin user
+            $_SESSION['admin'] = true; // Set admin session variable
             header('Location: dashboard.php');
             exit();
         }
@@ -68,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <a href = "register.php">don't have an account yet? Register now!</a> <br>
-            <br><button type="submit" class="btn btn-primary">Login</button>
+            <a href="register.php">Don't have an account yet? Register now!</a><br><br>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
 </div>

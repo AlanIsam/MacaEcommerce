@@ -12,7 +12,7 @@
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="orders.php">Orders</a>
+                    <a class="nav-link" href="adminorder.php">Orders</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="adminproduct.php">Products</a>
