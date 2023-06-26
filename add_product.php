@@ -13,7 +13,7 @@ if (isset($_POST['add_product'])) {
     $productType = $_POST['product_type'];
     $imageFilename = $_FILES['product_image']['name'];
     $imageTempname = $_FILES['product_image']['tmp_name'];
-    $imageFolder = "./img/" . $imageFilename;
+    $imageFolder = "../img/" . $imageFilename;
 
     // Move the uploaded image to the "img" directory
     if (move_uploaded_file($imageTempname, $imageFolder)) {
