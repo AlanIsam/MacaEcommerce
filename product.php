@@ -1,22 +1,23 @@
 <?php
 session_start();
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BestCrochet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .product-image {
             max-height: 300px;
             object-fit: contain;
         }
+        .product-details-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
     </style>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <?php include 'navbar.php'; ?>
@@ -39,40 +40,31 @@ session_start();
             $productPrice = $row['PRODUCT_PRICE'];
             $productType = $row['PRODUCT_TYPE'];
             $productImage = $row['PRODUCT_IMAGE'];
-            $productBought = 1;
             ?>
             <div class="row mt-5">
                 <div class="col-md-6">
-                    <img class="product-image img-fluid" src="data:image/jpeg;base64,<?php echo base64_encode($productImage); ?>" alt="Product Image">
+                    <?php if ($productImage) { ?>
+                        <img class="product-image img-fluid" src="img/<?php echo $productImage; ?>" alt="Product Image">
+                    <?php } else { ?>
+                        <p>No Image Available</p>
+                    <?php } ?>
                 </div>
                 <div class="col-md-6">
                     <div class="product-details-box">
                         <h2><?php echo $productName; ?></h2>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Quantity:</span>
-                            <input type="number" class="form-control" id="quantity" style="max-width: 100px" value="<?php echo $productBought; ?>">
-                        </div>
-                        <p class="mb-3">Price: <?php echo 'RM' .$productPrice; ?></p>
-                        <p class="mb-3">Type: <?php echo $productType; ?></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <form method="POST" action="cart.php">
+                            <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Quantity:</span>
+                                <input type="number" class="form-control" name="quantity[]" style="max-width: 100px" min="1" value="1">
+                            </div>
+                            <p class="mb-3">Price: RM <?php echo $productPrice; ?></p>
+                            <p class="mb-3">Type: <?php echo $productType; ?></p>
+                            <button type="submit" name="add_to_cart" class="btn btn-primary" onclick="showAlert()">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <script>
-                function incrementQuantity() {
-                    var quantity = document.getElementById('quantity');
-                    quantity.value = parseInt(quantity.value) + 1;
-                }
-
-                function decrementQuantity() {
-                    var quantity = document.getElementById('quantity');
-                    if (parseInt(quantity.value) > 1) {
-                        quantity.value = parseInt(quantity.value) - 1;
-                    }
-                }
-            </script>
-
             <?php
         } else {
             // Product not found
@@ -88,12 +80,13 @@ session_start();
     ?>
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function showAlert() {
+        alert('Product added to cart successfully!');
+    }
+</script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

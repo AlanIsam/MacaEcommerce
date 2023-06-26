@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
+    $userType = 'user';
 
     if ($password !== $confirmPassword) {
         $errorMsg = "Passwords do not match.";
@@ -20,10 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $errorMsg = "Email already exists.";
         } else {
             // Insert the new user into the database
-            $insertQuery = "INSERT INTO user (USER_NAME, USER_EMAIL, USER_PASSWORD) VALUES ('$username', '$email', '$password')";
+            $insertQuery = "INSERT INTO user (USER_NAME, USER_EMAIL, USER_PASSWORD, USER_TYPE) VALUES ('$username', '$email', '$password','$userType')";
             if (mysqli_query($conn, $insertQuery)) {
                 $_SESSION['userName'] = $username;
-                header("Location: index.php");
+                header("Location: login.php");
                 exit;
             } else {
                 $errorMsg = "Error: " . mysqli_error($conn);
