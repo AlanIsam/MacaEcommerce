@@ -41,8 +41,12 @@ while ($row = mysqli_fetch_assoc($cartItemsResult)) {
     $productId = $row['PRODUCT_ID'];
 
     // Insert the order item into the order table
-    $insertOrderQuery = "INSERT INTO `order` (ORDER_QUANTITY, PRODUCT_ID, USER_ID) VALUES ('$quantity', '$productId', '$userId')";
+    $insertOrderQuery = "INSERT INTO `orders` (ORDER_QUANTITY, PRODUCT_ID, USER_ID) VALUES ('$quantity', '$productId', '$userId')";
     mysqli_query($conn, $insertOrderQuery);
+
+    // Update the product quantity in the product table
+    $updateProductQuery = "UPDATE product SET PRODUCT_QUANTITY = PRODUCT_QUANTITY - '$quantity' WHERE PRODUCT_ID = '$productId'";
+    mysqli_query($conn, $updateProductQuery);
 
     // Delete the cart item
     $deleteCartItemQuery = "DELETE FROM cart WHERE CART_ID = '$cartId'";

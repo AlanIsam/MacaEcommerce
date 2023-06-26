@@ -1,35 +1,48 @@
 <?php
-// Assuming you have a database connection
+
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['admin'])) {
+    // Redirect to login page
+    header('Location: login.php');
+    exit();
+}
+
 require_once 'connection.php';
 
-$msg = "";
+$message = '';
 
-// If the form is submitted...
 if (isset($_POST['add_product'])) {
-    // Retrieve product parameters from the form
     $productName = $_POST['product_name'];
     $productQuantity = $_POST['product_quantity'];
-    $productPrice = $_POST['product_price'];
     $productType = $_POST['product_type'];
-    $imageFilename = $_FILES['product_image']['name'];
-    $imageTempname = $_FILES['product_image']['tmp_name'];
-    $imageFolder = "../img/" . $imageFilename;
+    $productPrice = $_POST['product_price'];
 
-    // Move the uploaded image to the "img" directory
-    if (move_uploaded_file($imageTempname, $imageFolder)) {
-        // Insert product details into the database
-        $insertQuery = "INSERT INTO product (PRODUCT_NAME, PRODUCT_QUANTITY, PRODUCT_PRICE, PRODUCT_TYPE, PRODUCT_IMAGE)
-                        VALUES ('$productName', '$productQuantity', '$productPrice', '$productType', '$imageFilename')";
+    $image = $_FILES['product_image']['name'];
+    $image_size = $_FILES['product_image']['size'];
+    $image_tmp_name = $_FILES['product_image']['tmp_name'];
+    $image_folder = 'img/' . $image;
 
-        if (mysqli_query($conn, $insertQuery)) {
-            // Redirect to adminproduct.php after successful addition
-            header("Location: adminproduct.php");
-            exit();
-        } else {
-            $msg = "Failed to add the product. Please try again.";
-        }
+    $select_products = $conn->prepare("SELECT * FROM `product` WHERE PRODUCT_NAME = ?");
+    $select_products->bind_param('s', $productName);
+    $select_products->execute();
+    $select_products->store_result();
+
+    if ($select_products->num_rows > 0) {
+        $message = 'Product name already exists!';
     } else {
-        $msg = "Failed to upload image. Please try again.";
+        if ($image_size > 2000000) {
+            $message = 'Image size is too large';
+        } else {
+            move_uploaded_file($image_tmp_name, $image_folder);
+
+            $insert_product = $conn->prepare("INSERT INTO `product` (PRODUCT_NAME, PRODUCT_QUANTITY, PRODUCT_TYPE, PRODUCT_PRICE, PRODUCT_IMAGE) VALUES (?,?,?,?,?)");
+            $insert_product->bind_param('sssss', $productName, $productQuantity, $productType, $productPrice, $image);
+            $insert_product->execute();
+
+            $message = 'New product added!';
+        }
     }
 }
 ?>
@@ -47,8 +60,8 @@ if (isset($_POST['add_product'])) {
 <?php include 'admin_navbar.php'; ?>
 <div class="container">
     <h1>Add Product</h1>
-    <?php if (!empty($msg)) { ?>
-        <div class="alert alert-danger"><?php echo $msg; ?></div>
+    <?php if (!empty($message)) { ?>
+        <div class="alert alert-danger"><?php echo $message; ?></div>
     <?php } ?>
     <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-3">
@@ -60,12 +73,12 @@ if (isset($_POST['add_product'])) {
             <input type="number" class="form-control" id="product_quantity" name="product_quantity" required>
         </div>
         <div class="mb-3">
-            <label for="product_price" class="form-label">Product Price</label>
-            <input type="number" class="form-control" id="product_price" name="product_price" required>
-        </div>
-        <div class="mb-3">
             <label for="product_type" class="form-label">Product Type</label>
             <input type="text" class="form-control" id="product_type" name="product_type" required>
+        </div>
+        <div class="mb-3">
+            <label for="product_price" class="form-label">Product Price</label>
+            <input type="number" class="form-control" id="product_price" name="product_price" required>
         </div>
         <div class="mb-3">
             <label for="product_image" class="form-label">Product Image</label>

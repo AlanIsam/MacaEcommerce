@@ -63,7 +63,7 @@ session_start();
         <?php
         // Fetch data from the database
         require_once 'connection.php';
-        $query = "SELECT * FROM product";
+        $query = "SELECT * FROM product WHERE PRODUCT_QUANTITY >= 1"; // Filter items with quantity >= 1
         $result = mysqli_query($conn, $query);
 
         // Loop through the data and display it in cards
