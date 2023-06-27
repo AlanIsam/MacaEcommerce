@@ -1,22 +1,21 @@
 <?php
 session_start();
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['userID'])) {
-    // Redirect to the login page or any other page
+
     header("Location: login.php");
     exit();
 }
 
-// Assuming you have a database connection
 require_once 'connection.php';
 
-// Retrieve the user ID from the session
+
 $userId = $_SESSION['userID'];
 
-// Retrieve the payment option from the URL query parameter
+
 if (!isset($_GET['payment']) || ($_GET['payment'] !== 'credit' && $_GET['payment'] !== 'cash')) {
-    // Redirect to the cart page or any other page
+
     header("Location: cart.php");
     exit();
 }
@@ -40,8 +39,8 @@ while ($row = mysqli_fetch_assoc($cartItemsResult)) {
     $quantity = $row['CART_QUANTITY'];
     $productId = $row['PRODUCT_ID'];
 
-    // Insert the order item into the order table
-    $insertOrderQuery = "INSERT INTO `orders` (ORDER_QUANTITY, PRODUCT_ID, USER_ID) VALUES ('$quantity', '$productId', '$userId')";
+    // Insert the order item into the order table with the payment type
+    $insertOrderQuery = "INSERT INTO `orders` (ORDER_QUANTITY, PRODUCT_ID, USER_ID, PAYMENT_TYPE) VALUES ('$quantity', '$productId', '$userId', '$paymentOption')";
     mysqli_query($conn, $insertOrderQuery);
 
     // Update the product quantity in the product table
@@ -72,6 +71,7 @@ mysqli_close($conn);
     <p>Your payment has been confirmed. The items from your cart have been added to your order.</p>
     <a href="index.php" class="btn btn-primary">Return to Home</a>
 </div>
+<?php include 'footer.php'; ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

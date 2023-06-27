@@ -1,4 +1,4 @@
-<!-- navbar.php -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="index.php">Maca E-commerce</a>
@@ -20,14 +20,18 @@
                     <?php
                     if (isset($_SESSION['userName'])) {
                         $username = $_SESSION['userName'];
-                        echo '<a class="nav-link" href="index.php"><i class="fas fa-user"></i> '.$username.'</a>';
+                        echo '<a class="nav-link" href="editprofile.php"><i class="fas fa-user"></i> '.$username.'</a>';
                     } else {
                         echo '<a class="nav-link" href="login.php"><i class="fas fa-user"></i> Login</a>';
                     }
                     ?>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="message.php"><i class="fas fa-heart"></i>Message Us!</a>
                 </li>
                 <?php
                 if (isset($_SESSION['userName'])) {

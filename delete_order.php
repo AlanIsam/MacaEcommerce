@@ -8,10 +8,8 @@ if (!isset($_SESSION['admin'])) {
     exit();
 }
 
-// Assuming you have a database connection
 require_once 'connection.php';
 
-// Check if the order ID is provided in the URL
 if (isset($_GET['id'])) {
     $orderId = $_GET['id'];
 

@@ -1,44 +1,48 @@
 <?php
 session_start();
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['userID'])) {
-    // Redirect to the login page or any other page
+
     header("Location: login.php");
     exit();
 }
 
-// Assuming you have a database connection
+
 require_once 'connection.php';
 
-// Retrieve the user ID from the session
+
 $userId = $_SESSION['userID'];
 $cartId = mysqli_insert_id($conn);
 
-// Store the cart ID in the session
+
 $_SESSION['cartID'] = $cartId;
 
-// Check if the payment option is specified in the URL query parameter
 if (!isset($_GET['payment']) || ($_GET['payment'] !== 'credit' && $_GET['payment'] !== 'cash')) {
-    // Redirect to the checkout page or any other page
+
     header("Location: checkout.php");
     exit();
 }
 
 $paymentOption = $_GET['payment'];
 
-// Handle the form submission for updating user details
+
 if (isset($_POST['submit'])) {
     $phoneNumber = $_POST['phone_number'];
     $address = $_POST['address'];
 
-    // Update the user details in the database
-    $updateQuery = "UPDATE user SET USER_PHONENUM = '$phoneNumber', USER_ADDRESS = '$address' WHERE USER_ID = '$userId'";
-    mysqli_query($conn, $updateQuery);
 
-    // Redirect to the payment confirmation page or any other page
-    header("Location: payment_confirmation.php?payment=$paymentOption");
-    exit();
+    if (!is_numeric($phoneNumber)) {
+        $error = "Phone number should be an integer.";
+    } else {
+
+        $updateQuery = "UPDATE user SET USER_PHONENUM = '$phoneNumber', USER_ADDRESS = '$address' WHERE USER_ID = '$userId'";
+        mysqli_query($conn, $updateQuery);
+
+
+        header("Location: payment_confirmation.php?payment=$paymentOption");
+        exit();
+    }
 }
 
 // Retrieve the user details from the database
@@ -65,7 +69,8 @@ mysqli_close($conn);
     <form method="post">
         <div class="mb-3">
             <label for="phone_number" class="form-label">Phone Number</label>
-            <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo $userData['USER_PHONENUM']; ?>">
+            <input type="text" class="form-control" id="phone_number" name="phone_number" pattern="[0-9]+" value="<?php echo $userData['USER_PHONENUM']; ?>" required>
+            <div class="invalid-feedback">Please enter a valid integer for the phone number.</div>
         </div>
         <div class="mb-3">
             <label for="address" class="form-label">Address</label>
@@ -73,7 +78,11 @@ mysqli_close($conn);
         </div>
         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
     </form>
+    <?php if (isset($error)) { ?>
+        <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
+    <?php } ?>
 </div>
+<?php include 'footer.php'; ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -8,22 +8,17 @@ if (!isset($_SESSION['userID'])) {
     exit();
 }
 
-// Assuming you have a database connection
 require_once 'connection.php';
 
-// Retrieve the user ID from the session
 $userId = $_SESSION['userID'];
 $cartId = mysqli_insert_id($conn);
 
-// Store the cart ID in the session
 $_SESSION['cartID'] = $cartId;
 
-// Check if the form is submitted for adding an item to the cart
 if (isset($_POST['add_to_cart'])) {
     $productId = $_POST['product_id'];
     $quantities = $_POST['quantity'];
 
-    // Insert the items into the cart table
     foreach ($quantities as $quantity) {
         $insertQuery = "INSERT INTO cart (CART_QUANTITY, PRODUCT_ID, USER_ID) VALUES ('$quantity', '$productId', '$userId')";
         mysqli_query($conn, $insertQuery);
@@ -31,7 +26,6 @@ if (isset($_POST['add_to_cart'])) {
     }
 
     $_SESSION['cartID'] = $cartId;
-    // Redirect back to the product page or any other page
 
     header("Location: product.php?id=$productId");
     exit();
@@ -57,7 +51,7 @@ $query = "SELECT cart.CART_ID, product.PRODUCT_NAME, product.PRODUCT_PRICE, cart
           WHERE cart.USER_ID = '$userId'";
 $result = mysqli_query($conn, $query);
 
-$totalPrice = 0; // Variable to store the total price
+$totalPrice = 0;
 
 ?>
 <!DOCTYPE html>
@@ -145,6 +139,7 @@ $totalPrice = 0; // Variable to store the total price
     ?>
 
 </div>
+<?php include 'footer.php'; ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-l43LyGQmEEU9NwqNK9VIRvLeK79Zp5hZBGS+WQ2iKZkMm3BvYJcwZ86R1YRLJw8K" crossorigin="anonymous"></script>
 </body>
