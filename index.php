@@ -54,7 +54,7 @@ session_start();
 <div class="container">
     <style>
         .product-image {
-            height: 200px; /* Adjust the height as per your requirements */
+            height: 200px;
             object-fit: cover;
         }
     </style>
@@ -63,7 +63,7 @@ session_start();
         <?php
         // Fetch data from the database
         require_once 'connection.php';
-        $query = "SELECT * FROM product WHERE PRODUCT_QUANTITY >= 1"; // Filter items with quantity >= 1
+        $query = "SELECT * FROM product WHERE PRODUCT_QUANTITY >= 1";
         $result = mysqli_query($conn, $query);
 
         // Loop through the data and display it in cards
@@ -99,6 +99,8 @@ session_start();
         ?>
     </div>
 </div>
+
+<?php include 'footer.php'; ?>
 
 <!-- Bootstrap JS with jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

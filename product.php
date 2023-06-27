@@ -23,17 +23,17 @@ session_start();
 <?php include 'navbar.php'; ?>
 <div class="container">
     <?php
-    // Retrieve the PRODUCT_ID from the query parameter
+
     if (isset($_GET['id'])) {
         $productId = $_GET['id'];
 
-        // Fetch the product details from the database using the PRODUCT_ID
+
         require_once 'connection.php';
         $query = "SELECT * FROM product WHERE PRODUCT_ID = '$productId'";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) == 1) {
-            // Product found, retrieve the details
+
             $row = mysqli_fetch_assoc($result);
             $productName = $row['PRODUCT_NAME'];
             $productQuantity = $row['PRODUCT_QUANTITY'];
@@ -67,13 +67,13 @@ session_start();
             </div>
             <?php
         } else {
-            // Product not found
+
             echo '<p>Product not found.</p>';
         }
 
         mysqli_close($conn);
     } else {
-        // Redirect back to index.php if no PRODUCT_ID is provided
+
         header('Location: index.php');
         exit();
     }
@@ -88,5 +88,6 @@ session_start();
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<?php include 'footer.php'; ?>
 </body>
 </html>

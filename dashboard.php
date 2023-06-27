@@ -2,14 +2,12 @@
 // Start session
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['admin'])) {
-    // Redirect to login page
+
     header('Location: login.php');
     exit();
 }
 
-// Assuming you have a database connection
 require_once 'connection.php';
 
 // Retrieve the total number of orders

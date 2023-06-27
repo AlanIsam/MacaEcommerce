@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['admin'])) {
-    // Redirect to login page
     header('Location: login.php');
     exit();
 }
 
-// Assuming you have a database connection
 require_once 'connection.php';
 
 // Check if the order ID is provided in the URL
@@ -30,15 +27,12 @@ if (isset($_GET['id'])) {
             // Update the order quantity in the database
             $updateQuery = "UPDATE orders SET ORDER_QUANTITY = '$orderQuantity' WHERE ORDER_ID = '$orderId'";
             mysqli_query($conn, $updateQuery);
-            // Display an alert box after successful update
             header('Location: adminorder.php');
         }
     } else {
-        // Display an error message if the order doesn't exist
         echo 'Order not found.';
     }
 } else {
-    // Redirect to the adminorder.php page if the order ID is not provided
     header('Location: adminorder.php');
     exit();
 }

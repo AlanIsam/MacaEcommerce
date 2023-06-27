@@ -17,6 +17,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="adminproduct.php">Products</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="useradmin.php">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminmessage.php">Messages</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>

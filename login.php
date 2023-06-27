@@ -16,18 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $userName = $row['USER_NAME'];
         $userID = $row['USER_ID'];
 
-        // Set session variables
+
         $_SESSION['userType'] = $userType;
         $_SESSION['userName'] = $userName;
         $_SESSION['userID'] = $userID;
 
         if ($userType == 'user') {
-            // Redirect to index.php for regular user
+
             header('Location: index.php');
             exit();
         } elseif ($userType == 'admin') {
-            // Redirect to dashboard.php for admin user
-            $_SESSION['admin'] = true; // Set admin session variable
+
+            $_SESSION['admin'] = true;
             header('Location: dashboard.php');
             exit();
         }
