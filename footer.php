@@ -35,9 +35,7 @@
         flex: 1;
     }
 </style>
-
 <div class="wrapper">
-    <!-- Your page content here -->
 </div>
 
 <footer class="footer">

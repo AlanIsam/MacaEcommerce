@@ -50,7 +50,6 @@ session_start();
         <span class="sr-only">Next</span>
     </a>
 </div>
-<br>
 <div class="container">
     <style>
         .product-image {
@@ -99,6 +98,7 @@ session_start();
         ?>
     </div>
 </div>
+<br>
 
 <?php include 'footer.php'; ?>
 

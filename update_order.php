@@ -20,6 +20,16 @@ if (isset($_GET['id'])) {
               WHERE o.ORDER_ID = '$orderId'";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
+
+    // Copy order details to sales table
+    $salesId = $row['ORDER_ID'];
+    $salesQuantity = $row['ORDER_QUANTITY'];
+    $salesPrice = $row['PRODUCT_PRICE'];
+
+    $insertQuery = "INSERT INTO sale (SALES_ID, SALES_QUANTITY, SALES_PRICES)
+                    VALUES ('$salesId', '$salesQuantity', '$salesPrice')";
+    mysqli_query($conn, $insertQuery);
+
     // Delete the order from the database
     $deleteQuery = "DELETE FROM orders WHERE ORDER_ID = '$orderId'";
     mysqli_query($conn, $deleteQuery);

@@ -9,14 +9,6 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <form class="form-inline">
-                        <div class="input-group">
-                            <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i>Search</button>
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                        </div>
-                    </form>
-                </li>
-                <li class="nav-item">
                     <?php
                     if (isset($_SESSION['userName'])) {
                         $username = $_SESSION['userName'];

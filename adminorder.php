@@ -58,7 +58,9 @@ $result = mysqli_query($conn, $query);
             echo '<td>';
             echo '<a href="edit_order.php?id=' . $row['ORDER_ID'] . '" class="btn btn-primary">Edit</a>';
             echo ' ';
-            echo '<button onclick="confirmDelete(' . $row['ORDER_ID'] . ')" class="btn btn-danger">Delete</button>';
+            echo '<button onclick="confirmUpdate(' . $row['ORDER_ID'] . ')" class="btn btn-success">Order Delivered</button>';
+            echo ' ';
+            echo '<button onclick ="confirmDelete(' . $row['ORDER_ID'] . ')" class = "btn btn-danger"> Delete Order</button>';
             echo '</td>';
 
             echo '</tr>';
@@ -72,10 +74,16 @@ $result = mysqli_query($conn, $query);
 
 <script>
     // JavaScript function to display a confirmation dialog before deleting an order
-    function confirmDelete(orderId) {
-        if (confirm("Are you sure you want to delete this order?")) {
+    function confirmUpdate(orderId) {
+        if (confirm("Are you sure you want to confirm this order?")) {
             // Redirect to delete_order.php with the order ID
-            window.location.href = "delete_order.php?id=" + orderId;
+            window.location.href = "update_order.php?id=" + orderId;
+        }
+    }
+
+    function confirmDelete(orderId){
+        if(confirm("Are you sure you want to delete this order?")){
+            window.location.href ="delete_order.php?id=" + orderId;
         }
     }
 </script>
