@@ -65,19 +65,97 @@ mysqli_close($conn);
 <body>
 <?php include 'navbar.php'; ?>
 <div class="container">
-    <h1>User Details</h1>
-    <form method="post">
-        <div class="mb-3">
-            <label for="phone_number" class="form-label">Phone Number</label>
-            <input type="text" class="form-control" id="phone_number" name="phone_number" pattern="[0-9]+" value="<?php echo $userData['USER_PHONENUM']; ?>" required>
-            <div class="invalid-feedback">Please enter a valid integer for the phone number.</div>
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <h3 class="text-center">Payment Details</h3>
+                        <img class="img-responsive cc-img" src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form method="post" id="payment-form">
+                        <div class="form-group">
+                            <label for="credit_card_number">Card Number</label>
+                            <div class="input-group">
+                                <input type="tel" class="form-control" id="credit_card_number" name="credit_card_number" placeholder="Valid Card Number" required>
+                                <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="expiration_date">Expiration Date</label>
+                            <div class="input-group">
+                                <select class="form-control" id="expiration_month" name="expiration_month" required>
+                                    <option value=""> Select Month </option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <select class="form-control" id="expiration_year" name="expiration_year" required>
+                                    <option value=""> Select Year </option>
+                                    <option value="23">2023</option>
+                                    <option value="24">2024</option>
+                                    <option value="25">2025</option>
+                                    <option value="26">2026</option>
+                                    <option value="27">2027</option>
+                                    <option value="28">2028</option>
+                                    <option value="29">2029</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CV Code</label>
+                            <input type="tel" class="form-control" id="cvv" name="cvv" placeholder="CVC" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card_owner">Card Owner</label>
+                            <input type="text" class="form-control" id="card_owner" name="card_owner" placeholder="Card Owner Names" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone_number">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" pattern="[0-9]+" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="4" required></textarea>
+                        </div>
+                        <br>
+                        <button type="submit" name="submit" class="btn btn-warning btn-lg btn-block">Process payment</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <textarea class="form-control" id="address" name="address" rows="4"><?php echo $userData['USER_ADDRESS']; ?></textarea>
-        </div>
-        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("payment-form").addEventListener("submit", function(event) {
+        var form = event.target;
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add("was-validated");
+    });
+</script>
+
+<style>
+    .cc-img {
+        margin: 0 auto;
+    }
+</style>
+
     <?php if (isset($error)) { ?>
         <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
     <?php } ?>

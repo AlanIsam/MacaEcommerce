@@ -28,7 +28,7 @@ mysqli_close($conn);
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<?php include 'navbar.php'; ?>
+<?php include 'admin_navbar.php'; ?>
 <div class="container">
     <h1>Admin Messages</h1>
     <table class="table table-striped">
